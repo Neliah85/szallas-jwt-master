@@ -43,7 +43,7 @@ const handleSubmit = event =>{
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(Szallas), // a Szallas objektumot JSON formátumba alakítjuk
+    body: JSON.stringify(szallas), // a Szallas objektumot JSON formátumba alakítjuk
   })
     .then(response => {
       if (!response.ok) {
