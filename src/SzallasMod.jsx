@@ -6,6 +6,7 @@ export const SzallasMod = () => {
     const params = useParams();
     const id = params.id;
     const navigate = useNavigate();
+    const [setError] = useState('');
     const [data, setData] = useState({
         
         "name": '',
@@ -26,7 +27,7 @@ export const SzallasMod = () => {
             }
         }   
         fetchData();
-    }, [id]);
+    }, [id, setError]);
 
 const handleInputChange = event => {
     const { name, value } = event.target;
