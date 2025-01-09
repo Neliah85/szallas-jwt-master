@@ -5,8 +5,7 @@ import axios from 'axios';
 export const SzallasMod = () => {
     const params = useParams();
     const id = params.id;
-    const navigate = useNavigate();
-    const [setError] = useState('');
+    const navigate = useNavigate();    
     const [data, setData] = useState({
         
         "name": '',
@@ -27,7 +26,7 @@ export const SzallasMod = () => {
             }
         }   
         fetchData();
-    }, [id, setError]);
+    }, [id]);
 
 const handleInputChange = event => {
     const { name, value } = event.target;
