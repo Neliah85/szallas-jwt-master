@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export const SzallasList = () => {
@@ -7,10 +7,10 @@ export const SzallasList = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const fetchData = async () =>{
+        const fetchData = async () => {
             try {
                 const token = localStorage.getItem('jwt');
-                if(!token) {
+                if (!token) {
                     throw new Error('Nem található JWT token!');
                 }
                 const valasz = await axios.get('https://szallasjwt.sulla.hu/data', {
@@ -19,29 +19,45 @@ export const SzallasList = () => {
                     }
                 });
                 setData(valasz.data);
-            }
-            catch(error) {
+            } catch (error) {
                 setError('Az adatok lekérése sikertelen. Lehet, hogy nem vagy bejelentkezve?');
                 console.error("Hiba az adatok lekérése során: ", error);
             }
-        }
+        };
         fetchData();
     }, []);
+
     return (
         <div>
-        <h2>Szállások listája</h2>
-        {error && <p style={{ color: 'red'}}> {error} </p>}
-        {data.length>0 ? (
-          <ul> 
-          { data.map((item) => (
-          <li key={item.id}>{item.name} - {item.hostname} - {item.location} - {item.price} - {item.minimum_nights}
-         <Link to={"/data/" + item.id}><i className="bi bi-text-paragraph fs-6 btn btn-primary"></i></Link>&nbsp;&nbsp;&nbsp;
-         <Link to={"/data-mod/" + item.id}><i className="bi bi-pencil-square fs-6 btn btn-warning"></i></Link>&nbsp;&nbsp;&nbsp;
-         <Link to={"/data-del/" + item.id}><i className="bi bi-trash3 fs-6 btn btn-danger"></i></Link><br /><br />
-          </li>
-        ))}
-        </ul> ) : ( <p>Nem találhatók az adatok!</p>)
-    } 
-    </div>
+            <h2>Szállások listája</h2>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <Link to="/data-create" className="btn btn-success mb-3">
+                Új szállás létrehozása
+            </Link>
+            {data.length > 0 ? (
+                <ul>
+                    {data.map((item) => (
+                        <li key={item.id}>
+                            {item.name} - {item.hostname} - {item.location} - {item.price} - {item.minimum_nights}
+                            <Link to={"/data/" + item.id}>
+                                <i className="bi bi-text-paragraph fs-6 btn btn-primary"></i>
+                            </Link>
+                            &nbsp;&nbsp;&nbsp;
+                            <Link to={"/data-mod/" + item.id}>
+                                <i className="bi bi-pencil-square fs-6 btn btn-warning"></i>
+                            </Link>
+                            &nbsp;&nbsp;&nbsp;
+                            <Link to={"/data-del/" + item.id}>
+                                <i className="bi bi-trash3 fs-6 btn btn-danger"></i>
+                            </Link>
+                            <br />
+                            <br />
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p>Nem találhatók az adatok!</p>
+            )}
+        </div>
     );
-}
+};
